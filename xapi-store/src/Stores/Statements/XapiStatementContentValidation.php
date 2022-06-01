@@ -84,7 +84,6 @@ trait XapiStatementContentValidation
         
         // JSON validity.
         if (!$statements = json_decode($statements->content)) {
-            Log::channel('benchmark')->info('------- error -------');
             throw new XapiBadRequestException('Invalid JSON content in multipart request.');
         }
         
