@@ -8,6 +8,8 @@ use Trax\XapiStore\Traits\AcceptMultipartRequests;
 use Trax\XapiStore\Exceptions\XapiBadRequestException;
 use Trax\XapiValidation\Statement;
 
+use Illuminate\Support\Facades\Log;
+
 trait XapiStatementContentValidation
 {
     use AcceptJsonRequests, AcceptMultipartRequests;
@@ -81,7 +83,10 @@ trait XapiStatementContentValidation
         
         // JSON validity.
         if (!$statements = json_decode($statements->content)) {
-            throw new XapiBadRequestException('Invalid JSON content in multipart request.' . $statements->content);
+            Log::error('validateStatementMultiparts');
+            Log::error(get_object_vars($statements));
+            Log::error($statements->content);
+            throw new XapiBadRequestException('Invalid JSON content in multipart request.');
         }
         
         // Check attachments.
