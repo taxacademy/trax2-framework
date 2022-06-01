@@ -58,8 +58,8 @@ trait XapiStatementContentValidation
     protected function validateRequestContent(Request $request): array
     {
         if ($parts = $this->validateMultipartRequest($request)) {
-            //Log::channel('benchmark')->info('Length: ' . $parts[0]->length);
-            //Log::channel('benchmark')->info('Content: ' . $parts[0]->content);
+            Log::channel('benchmark')->info('Length: ' . $parts[0]->length);
+           // Log::channel('benchmark')->info('Content: ' . $parts[0]->content);
             return $this->validateStatementMultiparts($parts);
         } else {
             return [$this->validateJsonRequest($request), []];
@@ -76,17 +76,19 @@ trait XapiStatementContentValidation
      */
     protected function validateStatementMultiparts(array $parts): array
     {
+        Log::channel('benchmark')->info('validateStatementMultiparts');
         // Content-Type.
         $statements = array_shift($parts);
         if (!isset($statements->contentType) || $statements->contentType != 'application/json') {
             throw new XapiBadRequestException('Invalid Content-Type in multipart request.');
         }
-        
+        Log::channel('benchmark')->info('check validity');
         // JSON validity.
         if (!$statements = json_decode($statements->content)) {
+            Log::channel('benchmark')->info('not valid');
             throw new XapiBadRequestException('Invalid JSON content in multipart request.');
         }
-        
+        Log::channel('benchmark')->info('check attachment');
         // Check attachments.
         foreach ($parts as $attachment) {
             //
@@ -105,7 +107,8 @@ trait XapiStatementContentValidation
                 throw new XapiBadRequestException('None binary Content-Transfer-Encoding in multipart request.');
             }
         }
-
+        Log::channel('benchmark')->info('--- content --- ');
+        Log::channel('benchmark')->info($statements->content);
         return [$statements, $parts];
     }
 }
