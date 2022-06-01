@@ -57,8 +57,8 @@ trait XapiStatementContentValidation
     protected function validateRequestContent(Request $request): array
     {
         if ($parts = $this->validateMultipartRequest($request)) {
-            Log::channel('benchmark')->info(json_encode('Length: ' . $parts[0]->length));
-            Log::channel('benchmark')->info(json_encode('Content: ' . $parts[0]->content));
+            Log::channel('benchmark')->info('Length: ' . $parts[0]->length);
+            Log::channel('benchmark')->info('Content: ' . $parts[0]->content);
             return $this->validateStatementMultiparts($parts);
         } else {
             return [$this->validateJsonRequest($request), []];
@@ -83,6 +83,7 @@ trait XapiStatementContentValidation
         
         // JSON validity.
         if (!$statements = json_decode($statements->content)) {
+            Log::channel('benchmark')->info('------- error -------');
             throw new XapiBadRequestException('Invalid JSON content in multipart request.');
         }
         
