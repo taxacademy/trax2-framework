@@ -7,6 +7,7 @@ use Trax\XapiStore\Traits\AcceptJsonRequests;
 use Trax\XapiStore\Traits\AcceptMultipartRequests;
 use Trax\XapiStore\Exceptions\XapiBadRequestException;
 use Trax\XapiValidation\Statement;
+use Illuminate\Support\Facades\Log;
 
 trait XapiStatementContentValidation
 {
