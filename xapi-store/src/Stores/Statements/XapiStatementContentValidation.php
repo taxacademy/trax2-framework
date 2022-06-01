@@ -58,8 +58,8 @@ trait XapiStatementContentValidation
     protected function validateRequestContent(Request $request): array
     {
         if ($parts = $this->validateMultipartRequest($request)) {
-            Log::channel('benchmark')->info('Length: ' . $parts[0]->length);
-            Log::channel('benchmark')->info('Content: ' . $parts[0]->content);
+            //Log::channel('benchmark')->info('Length: ' . $parts[0]->length);
+            //Log::channel('benchmark')->info('Content: ' . $parts[0]->content);
             return $this->validateStatementMultiparts($parts);
         } else {
             return [$this->validateJsonRequest($request), []];

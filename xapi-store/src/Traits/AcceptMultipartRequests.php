@@ -100,7 +100,7 @@ trait AcceptMultipartRequests
             }
         }
         Log::channel('benchmark')->info('-----------------------------\n\n-----------------------------');
-        Log::channel('benchmark')->info(json_encode($res));
+        //Log::channel('benchmark')->info(json_encode($res));
         return $res;
     }
 
