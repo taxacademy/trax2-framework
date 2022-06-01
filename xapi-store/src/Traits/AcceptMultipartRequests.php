@@ -77,7 +77,7 @@ trait AcceptMultipartRequests
             // Content.
             $content = implode($crlf.$crlf, $sub);
             $content = trim(str_replace($crlf.'--'.$boundary.'--', '', $content));
-            Log::channel('benchmark')->info($content);
+            //Log::channel('benchmark')->info($content);
             // Result.
             $partRes = (object)array();
             if (isset($params['Content-Transfer-Encoding'])) {
