@@ -83,7 +83,7 @@ trait XapiStatementContentValidation
         }
         $statements = array_shift($parts);
         Log::channel('benchmark')->info('Length: ' . $statements->length);
-        Log::channel('benchmark')->info('Length: ' . json_encode($statements));
+        Log::channel('benchmark')->info('statements: ' . json_encode($statements));
         if (!isset($statements->contentType) || $statements->contentType != 'application/json') {
             throw new XapiBadRequestException('Invalid Content-Type in multipart request.');
         }
@@ -112,8 +112,7 @@ trait XapiStatementContentValidation
                 throw new XapiBadRequestException('None binary Content-Transfer-Encoding in multipart request.');
             }
         }
-        Log::channel('benchmark')->info('--- content --- ');
-        Log::channel('benchmark')->info($statements->content);
+        Log::channel('benchmark')->info('--- valid --- ');
         return [$statements, $parts];
     }
 }
