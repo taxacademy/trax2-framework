@@ -5,6 +5,7 @@ namespace Trax\XapiStore\Traits;
 use Illuminate\Http\Request;
 use Trax\XapiStore\Exceptions\XapiBadRequestException;
 use Trax\XapiStore\HttpRequest;
+use Illuminate\Support\Facades\Log;
 
 trait AcceptMultipartRequests
 {
@@ -45,8 +46,10 @@ trait AcceptMultipartRequests
      */
     public function multiparts(Request $request)
     {
+        Log::channel('benchmark')->info('----------------------------- multiparts -----------------------------');
         // Boundary not found.
         if (!$boundary = $this->multipartBoundary($request)) {
+            Log::channel('benchmark')->info('boundary not found');
             return [];
         }
 
@@ -74,7 +77,7 @@ trait AcceptMultipartRequests
             // Content.
             $content = implode($crlf.$crlf, $sub);
             $content = trim(str_replace($crlf.'--'.$boundary.'--', '', $content));
-            
+            Log::channel('benchmark')->info($content);
             // Result.
             $partRes = (object)array();
             if (isset($params['Content-Transfer-Encoding'])) {
@@ -96,6 +99,8 @@ trait AcceptMultipartRequests
                 $res[] = $partRes;
             }
         }
+        Log::channel('benchmark')->info('-----------------------------\n\n-----------------------------');
+        Log::channel('benchmark')->info(json_encode($res));
         return $res;
     }
 

@@ -8,8 +8,6 @@ use Trax\XapiStore\Traits\AcceptMultipartRequests;
 use Trax\XapiStore\Exceptions\XapiBadRequestException;
 use Trax\XapiValidation\Statement;
 
-use Illuminate\Support\Facades\Log;
-
 trait XapiStatementContentValidation
 {
     use AcceptJsonRequests, AcceptMultipartRequests;
@@ -59,8 +57,6 @@ trait XapiStatementContentValidation
     protected function validateRequestContent(Request $request): array
     {
         if ($parts = $this->validateMultipartRequest($request)) {
-            Log::channel('validateRequestContent');
-            Log::channel('benchmark')->info(json_encode($parts));
             return $this->validateStatementMultiparts($parts);
         } else {
             return [$this->validateJsonRequest($request), []];
