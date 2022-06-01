@@ -81,8 +81,8 @@ trait XapiStatementContentValidation
         if (empty($parts)) {
             throw new XapiBadRequestException('Empty multi parts');
         }
-        Log::channel('benchmark')->info('Length: ' . $parts[0]->length);
         $statements = array_shift($parts);
+        Log::channel('benchmark')->info('Length: ' . $statements->length);
         Log::channel('benchmark')->info('Length: ' . json_encode($statements));
         if (!isset($statements->contentType) || $statements->contentType != 'application/json') {
             throw new XapiBadRequestException('Invalid Content-Type in multipart request.');
